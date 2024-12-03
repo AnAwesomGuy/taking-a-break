@@ -1,3 +1,4 @@
 {
-  "command.taking-a-break.lay": "You are now laying down!"
+  "taking-a-break.commands.lay.failed.notOnGround": "Can't lay down while in the air!",
+  "taking-a-break.commands.lay.failed.cramped": "A little cramped here..."
 }

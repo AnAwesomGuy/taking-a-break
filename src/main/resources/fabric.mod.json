@@ -3,38 +3,27 @@
 	"id": "taking-a-break",
 	"version": "${version}",
 	"name": "Taking a Break",
-	"description": "This Modd allows you to lay down anywhere with the /lay command",
+	"description": "Allows you to lay down anywhere with the /lay command",
 	"authors": [
-		"VoidedMC85"
+		"VoidedMC85",
+		"AnAwesomGuy"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/VoidedMC85-forks/taking-a-break-1.21.1"
 	},
-	"license": "MIT",
+	"license": "ISC",
 	"icon": "assets/taking-a-break/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
 			"net.voidedmc85.takingabreak.TakingABreak"
-		],
-		"fabric-datagen": [
-			"net.voidedmc85.takingabreak.TakingABreakDataGenerator"
-		],
-		"client": [
-			"net.voidedmc85.takingabreak.TakingABreakClient"
 		]
 	},
 	"mixins": [
 		"taking-a-break.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.16.9",
-		"minecraft": "~1.21.1",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
+		"fabricloader": ">=0.15",
+		"minecraft": "~1.21.1"
 	}
 }
