@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity implements LayingServerPlayer {
@@ -31,7 +32,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements La
                 return 2;
             }
 
-            if (this.isInSwimmingPose()) {
+            if (this.isInSwimmingPose() || this.isInsideWall()) {
                 source.sendError(Text.translatable("taking-a-break.commands.lay.failed.cramped"));
                 return 2;
             }
@@ -60,7 +61,17 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements La
     }
 
     @Inject(method = "playerTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;tick()V"))
-    private void checkSneakAndWake(CallbackInfo ci) {
+    private void standUpOnSneak(CallbackInfo ci) {
+        LayHandler layHandler = this.layHandler;
+        // is laying down AND (is sneaking OR moved from original laying position)
+        if (layHandler != null && (this.shouldDismount() || !this.getBlockPos().equals(layHandler.layingPosition))) {
+            layHandler.standUp();
+            this.layHandler = null;
+        }
+    }
+
+    @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
+    private void standUpOnDamage(CallbackInfoReturnable<Boolean> cir) {
         takingabreak$standUp();
     }
 }
