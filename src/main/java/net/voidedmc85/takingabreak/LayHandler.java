@@ -18,20 +18,20 @@ public final class LayHandler {
                                                                   .with(BedBlock.PART, BedPart.HEAD);
 
     public final ServerPlayerEntity player;
-    private BlockPos fakeBedPos;
-    private BlockState previousState;
+    public final BlockPos fakeBedPos;
+    public final BlockState previousState;
 
     public LayHandler(ServerPlayerEntity player) {
         this.player = player;
 
         // lay down functionality below
-
         if (player.hasVehicle())
             player.stopRiding();
         // lay down pose
         player.setPose(EntityPose.SLEEPING);
         player.setVelocity(Vec3d.ZERO);
         player.velocityDirty = true; // send the velocity update to client
+        player.setPosition(player.getPos().add(0, 0.1, 0));
         World world = player.getWorld();
         BlockPos pos = this.fakeBedPos = player.getBlockPos().withY(world.getBottomY());
         // make the player "sleep" TODO find a way to make the player not actually sleep (data tracker sync mixins? EntityTrackerEntry#syncEntityData)
@@ -46,8 +46,6 @@ public final class LayHandler {
         // remove the fake bed
         player.networkHandler.sendPacket(
             new BlockUpdateS2CPacket(this.fakeBedPos, this.previousState));
-        this.fakeBedPos = null;
-        this.previousState = null;
         // this will make the player "wake up"
         player.clearSleepingPosition();
         player.setPose(EntityPose.STANDING); // stand up

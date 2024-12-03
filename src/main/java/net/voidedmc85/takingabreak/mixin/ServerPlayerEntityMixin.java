@@ -46,16 +46,21 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements La
     }
 
     @Override
+    public void takingabreak$standUp() {
+        LayHandler layHandler = this.layHandler;
+        if (layHandler != null) {
+            layHandler.standUp();
+            this.layHandler = null;
+        }
+    }
+
+    @Override
     public boolean takingabreak$isLaying() {
         return this.layHandler != null;
     }
 
     @Inject(method = "playerTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;tick()V"))
     private void checkSneakAndWake(CallbackInfo ci) {
-        LayHandler layHandler = this.layHandler;
-        if (layHandler != null && this.shouldDismount()) {
-            layHandler.standUp();
-            this.layHandler = null;
-        }
+        takingabreak$standUp();
     }
 }

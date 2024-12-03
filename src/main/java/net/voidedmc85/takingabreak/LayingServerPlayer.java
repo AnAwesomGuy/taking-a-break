@@ -15,5 +15,7 @@ public interface LayingServerPlayer {
      */
     int takingabreak$toggleLay(ServerCommandSource source);
 
+    void takingabreak$standUp();
+
     boolean takingabreak$isLaying();
 }
