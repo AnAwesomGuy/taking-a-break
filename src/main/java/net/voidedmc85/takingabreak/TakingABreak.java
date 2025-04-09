@@ -10,22 +10,20 @@ public class TakingABreak implements ModInitializer {
     @Override
     public void onInitialize() {
         CommandRegistrationCallback.EVENT.register(
-            (dispatcher, registryAccess, environment) -> {
-                String playerArg = "player";
+            (dispatcher, registryAccess, environment) ->
                 dispatcher.register(
                     CommandManager.literal("lay")
                                   .then(
-                                      CommandManager.argument(playerArg, EntityArgumentType.player())
+                                      CommandManager.argument("player", EntityArgumentType.player())
                                                     .requires(source -> source.hasPermissionLevel(2))
                                                     .executes(ctx -> ((LayingServerPlayer)EntityArgumentType.getPlayer(
-                                                        ctx, playerArg)).takingabreak$toggleLay(ctx.getSource())))
+                                                        ctx, "player")).takingabreak$toggleLay(ctx.getSource())))
                                   .executes(ctx -> {
                                       ServerCommandSource source = ctx.getSource();
                                       return ((LayingServerPlayer)source.getPlayerOrThrow())
                                           .takingabreak$toggleLay(source);
                                   })
-                );
-            }
+                )
         );
     }
 }
