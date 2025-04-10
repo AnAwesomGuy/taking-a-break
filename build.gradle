@@ -1,12 +1,13 @@
 plugins {
-    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'me.modmuss50.mod-publish-plugin' version '0.8.+'
 }
 
 version = project.mod_version
 group = project.maven_group
 
 base {
-    archivesName = project.archives_base_name
+    archivesName = project.mod_id
 }
 
 repositories {
@@ -56,6 +57,37 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${archives_base_name}" }
+        rename { "${it}_${mod_id}" }
+    }
+}
+
+publishMods {
+    file = jar.archiveFile
+    additionalFiles.from sourcesJar
+    type = STABLE
+    //TODO: DONT FORGET TO UPDATE THIS
+    changelog = project.changelog
+    modLoaders.add 'fabric'
+    displayName = mod_id + mod_version
+    version = "$mod_version+$minecraft_version"
+
+    modrinth {
+        projectId = 'xdTrASAc'
+        accessToken = providers.environmentVariable 'MODRINTH_TOKEN'
+        minecraftVersions.addAll minecraft_version
+    }
+
+    curseforge {
+        projectId = '1153601'
+        accessToken = providers.environmentVariable 'CURSEFORGE_TOKEN'
+        minecraftVersions.addAll minecraft_version
+        clientRequired = false
+    }
+
+    github {
+        accessToken = providers.environmentVariable 'GITHUB_TOKEN'
+        repository = 'AnAwesomGuy/taking-a-break'
+        tagName = mod_version
+        commitish = 'master'
     }
 }
