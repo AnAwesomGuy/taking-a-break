@@ -62,13 +62,13 @@ jar {
 }
 
 publishMods {
-    file = jar.archiveFile
-    additionalFiles.from sourcesJar
+    file = remapJar.archiveFile
+    additionalFiles.from remapSourcesJar
     type = STABLE
     //TODO: DONT FORGET TO UPDATE THIS
     changelog = project.changelog
     modLoaders.add 'fabric'
-    displayName = mod_id + ' ' + mod_version
+    displayName = "$mod_id $mod_version"
     version = "$mod_version+$minecraft_version"
 
     modrinth {
