@@ -2,7 +2,7 @@
   "required": true,
   "package": "net.voidedmc85.takingabreak.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["LivingEntityMixin", "ServerPlayerEntityMixin", "ServerPlayNetworkHandlerMixin"],
+  "mixins": ["LivingEntityMixin", "PlayerEntityMixin", "ServerPlayerEntityMixin", "ServerPlayNetworkHandlerMixin"],
   "injectors": {
     "defaultRequire": 1
   }
